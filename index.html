@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
     <h1 id="titre">Piano Di El Kevino</h1>
     <div id="trai">
         <div class="ligne">
@@ -37,19 +38,21 @@
 
 
 
-        <li class="white e" data-key="h"></li>
-        <li class="blackk ks" data-key="t"></li>
-        <li class="black ds" data-key="y"></li>
-        <li class="white d" data-key="j"></li>
-        <li class="black cs" data-key="u"></li>
-        <li class="white d" data-key="k"></li>
-        <li class="black cs" data-key="i"></li>
-        <li class="white c" data-key="l"></li>
+        <li class="white e" leap-hover data-key="h"></li>
+        <li class="blackk ks" leap-hover data-key="t"></li>
+        <li class="black ds" leap-hover data-key="y"></li>
+        <li class="white d" leap-hover data-key="j"></li>
+        <li class="black cs" leap-hover data-key="u"></li>
+        <li class="white d" leap-hover data-key="k"></li>
+        <li class="black cs" leap-hover data-key="i"></li>
+        <li class="white c" leap-hover data-key="l"></li>
     </ul>
 
-    <script src="script.js" type="module"></script>
-    <canvas id="canvas"></canvas>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/leapjs@0.6.4/leap-0.6.4.min.js"></script>
+    <script src="script.js" type="module"></script>
+    <script src="leap.js" type="module"></script>
 </body>
 
 </html>

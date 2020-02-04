@@ -132,3 +132,7 @@ ul .tile-active {
     justify-content: space-between;
     width: 10%;
 }
+
+.leap-hover {
+    background-color: orange !important;
+}
