@@ -96,12 +96,13 @@ ul li:last-child {
 }
 
 ul .tile-active {
-    animation: tilePressed 400ms;
+    animation: tilePressed 200ms;
 }
 
 @keyframes tilePressed {
     from {
-        background: lime;
+        /* background: lime; */
+        box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.2) inset, 0 -2px 2px 3px rgba(0, 0, 0, 0.6) inset, 0 1px 2px rgba(0, 0, 0, 0.5);
     }
 }
 

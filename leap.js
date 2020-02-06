@@ -1,12 +1,24 @@
 import { getCoords } from './app.js'
-
 import { canvas, ctx } from './canvas.js'
+import './script.js';
 
+Pizzicato.context.resume();
 
+const NOTES = {
+    do: new Pizzicato.Sound('./audio/do.wav'),
+    re: new Pizzicato.Sound('./audio/re.wav'),
+    mi: new Pizzicato.Sound('./audio/mi.wav'),
+    fa: new Pizzicato.Sound('./audio/fa.wav'),
+    sol: new Pizzicato.Sound('./audio/sol.wav'),
+    la: new Pizzicato.Sound('./audio/la.wav'),
+    si: new Pizzicato.Sound('./audio/si.wav'),
+    do: new Pizzicato.Sound('./audio/do.wav'),
+};
 
 // Leap hover
 class LeapHover {
     constructor() {
+        this.currentElement = null;
         this.leapHoverElements = [];
         document.querySelectorAll('[leap-hover]').forEach(element => {
             this.leapHoverElements.push(element);
@@ -17,49 +29,68 @@ class LeapHover {
         this.leapHoverElements.forEach(element => {
             let rect = element.getBoundingClientRect();
             element.classList.remove('leap-hover');
-            if (x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) {
-                element.classList.add('leap-hover');
-                // document.elementFromPoint(x, y).click();
-                callback(element);
+            let sc = window.scrollY;
+            if (x > rect.left && x < rect.right && y > rect.top + sc && y < rect.bottom + sc) {
+                if (this.currentElement !== element) {
+                    element.classList.add('leap-hover');
+                    // document.elementFromPoint(x, y).click();
+                    this.currentElement = element;
+                    callback(element);
+                }
             }
         });
     }
 }
 const leapHover = new LeapHover();
-
 const controller = new Leap.Controller();
 controller.connect();
 controller.on('frame', frame => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     frame.hands.forEach(hand => {
-        let { x, y } = getCoords(hand.stabilizedPalmPosition, frame, canvas);
 
-        leapHover.verify(x, y, function(el) {
-            if (hand.pinchStrength >= 0.95) {
-                el.classList.remove('tile-active');
+        // if (hand.pinchStrength >= 0.95) {
+        //     ctx.fillStyle = '#f00';
+        // } else {
+        //     ctx.fillStyle = '#000';
+        // }
 
-                setTimeout(() => el.classList.add('tile-active'), 0);
-            }
-        });
+        // Debug leapHoverElements
+        /* leapHover.leapHoverElements.forEach(element => {
+            let rect = element.getBoundingClientRect();
 
-        if (hand.pinchStrength >= 0.95) {
-            ctx.fillStyle = '#f00';
-        } else {
-            ctx.fillStyle = '#000';
-        }
+            ctx.strokeStyle = 'red';
+            let sc = window.scrollY;
+            ctx.strokeRect(rect.x, rect.y + sc, rect.width, rect.height);
+        }); */
 
-        ctx.fillRect(x, y, 10, 10);
         // Dessin de la paume
-        const palmPos = getCoords(hand.palmPosition, frame, canvas);
+        let palmPos = getCoords(hand.palmPosition, frame, canvas);
         ctx.fillRect(palmPos.x, palmPos.y, 25, 25);
 
-        //dessin de poignet
+        // Leap Hover plugin
+        leapHover.verify(palmPos.x, palmPos.y, function(el) {
+            el.classList.remove('tile-active');
+            setTimeout(() => el.classList.add('tile-active'), 0);
+
+            let soundId = el.dataset.note;
+            if (!soundId || !NOTES[soundId])
+                return;
+
+            // if (NOTES[soundId].playing == false) {
+            NOTES[soundId].stop();
+
+            NOTES[soundId].play();
+            // }
+
+        });
+
+        /* //dessin de poignet
         ctx.fillStyle = 'black';
         let nextJoint = getCoords(hand.arm.nextJoint, frame, canvas);
-        ctx.fillRect(nextJoint.x, nextJoint.y, 25, 25);
+        ctx.fillRect(nextJoint.x, nextJoint.y, 25, 25); */
 
-        // Dessin des doigts
+        /* // Dessin des doigts
         const carps = [];
         const mcps = [];
         hand.fingers.forEach((finger) => {
@@ -89,7 +120,7 @@ controller.on('frame', frame => {
 
             carps.push(carp);
             mcps.push(mcp);
-        })
+        }) */
     });
 
 });
