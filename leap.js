@@ -4,7 +4,7 @@ import './script.js';
 
 Pizzicato.context.resume();
 
-const NOTES = {
+export const NOTES = {
     do: new Pizzicato.Sound('./audio/do.wav'),
     re: new Pizzicato.Sound('./audio/re.wav'),
     mi: new Pizzicato.Sound('./audio/mi.wav'),
@@ -15,6 +15,19 @@ const NOTES = {
     do: new Pizzicato.Sound('./audio/do.wav'),
 };
 
+// effect sonor 
+
+let pingPongDelay = new Pizzicato.Effects.PingPongDelay({
+    feedback: 0.6,
+    time: 0.4,
+    mix: 0.5
+});
+
+let effet = document.getElementById('effect');
+
+effet.onclick = function() {
+    alert("Vous m'avez cliqué !");
+};
 // Leap hover
 class LeapHover {
     constructor() {
@@ -66,7 +79,7 @@ controller.on('frame', frame => {
 
         // Dessin de la paume
         let palmPos = getCoords(hand.palmPosition, frame, canvas);
-        ctx.fillRect(palmPos.x, palmPos.y, 25, 25);
+        ctx.fillRect(palmPos.x, palmPos.y, 15, 15);
 
         // Leap Hover plugin
         leapHover.verify(palmPos.x, palmPos.y, function(el) {

@@ -140,9 +140,10 @@ ul .tile-active {
     display: flex;
     justify-content: space-between;
     width: 10%;
-    z-index: 205;
 }
 
 .leap-hover {
     background-color: orange !important;
 }
+
+/*# sourceMappingURL=/piano.ed617bdf.css.map */

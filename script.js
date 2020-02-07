@@ -1,3 +1,6 @@
+import { NOTES } from './leap.js'
+
+
 document.addEventListener('keydown', (_event) => {
 
     const li = document.querySelector('[data-key=' + _event.key + ']');
@@ -10,7 +13,11 @@ document.addEventListener('keydown', (_event) => {
 
     setTimeout(
         () => li.classList.add('tile-active'), 0);
+
+
+
 });
+
 
 /* document.addEventListener('transitionend', _event => {
     console.log(_event)
